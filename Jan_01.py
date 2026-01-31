@@ -1,3 +1,9 @@
+'''
+GENUARY 2026 JAN. 1
+One color, one shape.
+
+Arrows that point in the direction based on the gradient of opensimplex noise.
+'''
 from itertools import product
 
 import numpy as np
@@ -25,7 +31,7 @@ def create_hexagonal_grid(side_length, n_columns, n_rows):
 
 
 def base_shape(circle_radius):
-    '''Used to create the base shape'''  # One Shape
+    '''Used to create the base shape'''
     return [
             svg.M(circle_radius, 0),
             svg.L(circle_radius * np.cos(2 * np.pi / 3),
@@ -58,15 +64,16 @@ def direction(x, y, h=1e-5):
 
 def draw() -> svg.SVG:
     '''
-    Actually adds the shapes to the SVG.
+    Actually adds the shapes to the SVG. Uses the one color here.
     '''
 
     # Start with a background rectangle.
-    elements = [svg.Rect(x=0,
-                         y=0,
-                         width=WIDTH,
-                         height=HEIGHT,
-                         fill=COLOR)]
+    elements: list[svg.Element] = list()
+    elements.append(svg.Rect(x=0,
+                             y=0,
+                             width=WIDTH,
+                             height=HEIGHT,
+                             fill=COLOR))
 
     # Set up the hexagonal grid
     radius = 5

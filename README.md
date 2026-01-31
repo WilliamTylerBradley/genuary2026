@@ -5,4 +5,13 @@ Genuary 2026
 One color, one shape.
 
 ## Jan. 10
-Polar Coordinates
+Polar Coordinates.
+
+## Jan. 17
+Wallpaper group.
+
+## Jan. 27
+Lifeform. A shape or structure that behaves as if it’s alive or growing.
+
+## Jan. 29
+Genetic evolution and mutation.

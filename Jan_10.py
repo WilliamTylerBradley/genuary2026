@@ -1,5 +1,9 @@
-# Random walk through polar coordinates (r and theta, starting at 1, 1), use arcs?
-# figure out arc length to move 1 unit
+'''
+GENUARY 2026 JAN. 10
+Polar coordinates.
+
+Random walk through polar coordinates.
+'''
 
 import numpy as np
 import svg
@@ -11,6 +15,9 @@ rng = np.random.default_rng(20260110)
 
 
 def create_paths(n_steps):
+    '''
+    Creates the path adding individual Paths that move along r and theta.
+    '''
 
     new_elements = []
 
@@ -21,14 +28,15 @@ def create_paths(n_steps):
     steps = rng.binomial(1, .5, (n_steps, 2))
 
     for step_number, s in enumerate(steps):
+        # Color from white to black to white again
         if step_number <= n_steps / 2:
             color_value = 255 - (step_number * 2 / n_steps) * 255
         else:
             color_value = (step_number * 2 / n_steps) * 255 / 2
 
-        path = [svg.M(current_r * np.cos(current_theta), current_r * np.sin(current_theta))]
+        path = [svg.M(current_r * np.cos(current_theta),
+                      current_r * np.sin(current_theta))]
         if s[0] == 0:
-            # Use polar coordinates then convert, duh
             if current_r != 0:
                 current_r = current_r - 1
             else:
@@ -37,12 +45,14 @@ def create_paths(n_steps):
         else:
             current_r = current_r + 1
 
+        # Convert to x, y and move along r
         path.append(svg.L(current_r * np.cos(current_theta),
-                          current_r * np.sin(current_theta)))  # move r
+                          current_r * np.sin(current_theta)))
 
         large_arc_flag = 0
         sweep_flag = 0
 
+        # Catch if r tries to be negative
         if current_r != 0:
 
             if s[1] == 1:
@@ -59,13 +69,14 @@ def create_paths(n_steps):
 
             current_theta = current_theta + np.pi  # I guess
 
+        # Convert to x, y and move along theta
         path.append(svg.Arc(current_r,
                             current_r,
                             0,
                             large_arc_flag,
                             sweep_flag,
                             current_r * np.cos(current_theta),
-                            current_r * np.sin(current_theta)))  # move theta
+                            current_r * np.sin(current_theta)))
 
         new_elements.append(svg.Path(
                 d=path,
@@ -79,13 +90,17 @@ def create_paths(n_steps):
 
 
 def draw() -> svg.SVG:
+    '''
+    Actually adds the shapes to the SVG.
+    '''
 
     # Start with a background rectangle.
-    elements = [svg.Rect(x=0,
-                         y=0,
-                         width=WIDTH,
-                         height=HEIGHT,
-                         fill="#FFFFFF")]
+    elements: list[svg.Element] = list()
+    elements.append(svg.Rect(x=0,
+                             y=0,
+                             width=WIDTH,
+                             height=HEIGHT,
+                             fill="#FFFFFF"))
 
     elements.append(create_paths(50000))
 
@@ -93,7 +108,8 @@ def draw() -> svg.SVG:
         width=WIDTH,
         height=HEIGHT,
         elements=elements)
- 
+
+
 if __name__ == '__main__':
     with open('Jan_10.svg', 'w') as f:
         print(draw(), file=f)

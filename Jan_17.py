@@ -1,3 +1,10 @@
+'''
+GENUARY 2026 JAN. 17
+Wallpaper group.
+
+pg group
+'''
+
 import numpy as np
 import svg
 
@@ -6,8 +13,6 @@ HEIGHT = 100
 
 
 def create_row(start_y, width, height, fill):
-    # path = [svg.M(start_x, start_y)]
-    # use rect and get rounded corners
     row = []
 
     slide_x = width * np.cos(np.pi/4) - height * np.sin(np.pi/4)
@@ -18,8 +23,9 @@ def create_row(start_y, width, height, fill):
 
     for count_x in np.arange(steps):
         if count_x % 2 == 0:
-            transform = [svg.Translate(-slide_x + count_x / 2 * step_x, start_y),
-                         svg.Rotate(45, 0, 0)]            
+            transform = [svg.Translate(-slide_x + count_x / 2 * step_x,
+                                       start_y),
+                         svg.Rotate(45, 0, 0)]
         else:
             transform = [svg.Translate((count_x - 1) / 2 * step_x, slant_up_y),
                          svg.Rotate(-45, 0, 0)]
@@ -39,13 +45,17 @@ def create_row(start_y, width, height, fill):
 
 
 def draw() -> svg.SVG:
+    '''
+    Actually adds the shapes to the SVG.
+    '''
 
     # Start with a background rectangle.
-    elements = [svg.Rect(x=0,
-                         y=0,
-                         width=WIDTH,
-                         height=HEIGHT,
-                         fill="#000000")]
+    elements: list[svg.Element] = list()
+    elements.append(svg.Rect(x=0,
+                             y=0,
+                             width=WIDTH,
+                             height=HEIGHT,
+                             fill="#000000"))
 
     rect_height = 5
     rect_width = 10
@@ -61,7 +71,10 @@ def draw() -> svg.SVG:
             g = "88"
         if count_y % 3 == 0:
             b = "88"
-        elements.append(create_row(slide_y * count_y, rect_width, rect_height, f"#{r}{g}{b}"))
+        elements.append(create_row(slide_y * count_y,
+                                   rect_width,
+                                   rect_height,
+                                   f"#{r}{g}{b}"))
 
     return svg.SVG(
         width=WIDTH,
